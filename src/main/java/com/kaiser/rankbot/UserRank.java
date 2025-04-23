@@ -1,4 +1,4 @@
-package com.kaiser.rankbot.repo;
+package com.kaiser.rankbot;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -17,10 +17,12 @@ import java.time.LocalDateTime;
 public class UserRank {
     @Id
     private String discordId;
+    private String discordName;
     private String riotId;
     private String puuid;
     private String rank;
     private String tier;
     private Integer leaguePoints;
     private LocalDateTime lastUpdated;
+
 }

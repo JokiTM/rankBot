@@ -1,7 +1,6 @@
 package com.kaiser.rankbot;
 
 import com.kaiser.rankbot.repo.RankRepo;
-import com.kaiser.rankbot.repo.UserRank;
 import com.kaiser.rankbot.service.RankService;
 import jakarta.annotation.PostConstruct;
 import net.dv8tion.jda.api.JDA;
@@ -64,9 +63,11 @@ public class MyListener extends ListenerAdapter {
         event.reply("Deleted user").queue();
     }
 
+
     private void setUser(SlashCommandInteractionEvent event){
         logger.info("setuser");
         //if user exists -> update
+
         try {
             var user = rankService.setUser(event);
             logger.info("setuser user retrieved: {}", user);
@@ -89,6 +90,7 @@ public class MyListener extends ListenerAdapter {
 
         for (UserRank userRank : userList) {
             assert guild != null;
+            rankService.updateUser(userRank);
             rankService.modifyNickname(guild, userRank);
         }
     }

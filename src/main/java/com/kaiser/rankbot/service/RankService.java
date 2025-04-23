@@ -1,6 +1,6 @@
 package com.kaiser.rankbot.service;
 
-import com.kaiser.rankbot.repo.UserRank;
+import com.kaiser.rankbot.UserRank;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import org.slf4j.Logger;
@@ -9,22 +9,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 
 @Service
 public class RankService {
     private static final Logger logger = LoggerFactory.getLogger(RankService.class);
-
+    String riotIdPattern = "^[A-Za-z0-9 _\\.]{3,16}#[A-Za-z0-9]{2,5}$";
     @Autowired
     private RiotApiService riotApiService;
 
 
-
-
-
     public UserRank setUser(SlashCommandInteractionEvent event) throws Exception {
-        String riotIdPattern = "^[A-Za-z0-9 _\\.]{3,16}#[A-Za-z0-9]{2,5}$";
+
         logger.debug("setUser: {}", event.getUser());
 
         var riotId = event.getOption("riotid").getAsString();
@@ -35,10 +31,12 @@ public class RankService {
         var puuid = riotApiService.getPuuid(riotId);
         var rank = riotApiService.fetchRankFromRiotApi(puuid);
 
+
         if (rank == null){
             event.reply("Unranked in Solo/Duo.").queue();
             UserRank user = new UserRank(
                     event.getUser().getId(),
+                    event.getUser().getName(),
                     riotId,
                     puuid,
                     "Unranked",
@@ -52,6 +50,7 @@ public class RankService {
         else {
             UserRank user = new UserRank(
                     event.getUser().getId(),
+                    event.getUser().getName(),
                     riotId,
                     puuid,
                     rank.getRank(),
@@ -78,5 +77,12 @@ public class RankService {
             guild.modifyNickname(member, user.getTier() + " " + user.getRank() + " | " + user.getLeaguePoints()).queue();
 
          });
+    }
+
+    public void updateUser(UserRank userRank) {
+        var rank = riotApiService.fetchRankFromRiotApi(userRank.getPuuid());
+        userRank.setRank(rank.getRank());
+        userRank.setTier(rank.getTier());
+        userRank.setLeaguePoints(rank.getLeaguePoints());
     }
 }

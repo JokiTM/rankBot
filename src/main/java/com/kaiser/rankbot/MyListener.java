@@ -33,7 +33,6 @@ public class MyListener extends ListenerAdapter {
             public void init() {
         jda.addEventListener(this);
         guild = jda.getGuildById("765991080528969798");
-        guild.updateCommands().queue();
         CommandService.registerCommands(jda);
 
     }
@@ -68,7 +67,12 @@ public class MyListener extends ListenerAdapter {
 
     private void setNickname(SlashCommandInteractionEvent event) {
         logger.info("Set Nickname");
-        repo.updateDiscordName(event.getUser().getId(), event.getOption("nickname").getAsString());
+        var newName = event.getOption("nickname").getAsString();
+        if(newName.length() > 16){
+            event.reply("Nickname is too long(Max 16 chars").queue();
+            return;
+        }
+        repo.updateDiscordName(event.getUser().getId(), newName);
         event.reply("Nickname set!").queue();
     }
 

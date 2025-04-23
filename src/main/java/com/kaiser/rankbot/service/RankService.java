@@ -31,12 +31,15 @@ public class RankService {
         var puuid = riotApiService.getPuuid(riotId);
         var rank = riotApiService.fetchRankFromRiotApi(puuid);
         var discordName = event.getMember().getNickname();
+
+        String newName = discordName.substring(0, Math.min(discordName.length(), 16));
+
         logger.info("discordName: {}", discordName);
         if (rank == null){
             event.reply("Unranked in Solo/Duo.").queue();
             UserRank user = new UserRank(
                     event.getUser().getId(),
-                    event.getMember().getNickname(),
+                    newName,
                     riotId,
                     puuid,
                     "Unranked",
@@ -53,7 +56,7 @@ public class RankService {
 
             return new UserRank(
                     event.getUser().getId(),
-                    event.getMember().getNickname(),
+                    newName,
                     riotId,
                     puuid,
                     rank.getRank(),
@@ -71,11 +74,8 @@ public class RankService {
         System.out.println("Modify nickname from: " + user.getDiscordId() + " rank: " + user.getTier() + " " + user.getRank() + " | " + user.getLeaguePoints() + " LP");
 
         guild.retrieveMemberById(user.getDiscordId()).queue(member -> {
-
-
             guild.modifyNickname(member,user.getDiscordName() + " ~ " + user.getTier().charAt(0) + " " + user.getRank() + " | " + user.getLeaguePoints() + "LP").queue();
-
-         });
+        });
     }
 
     public void updateUser(UserRank userRank) {

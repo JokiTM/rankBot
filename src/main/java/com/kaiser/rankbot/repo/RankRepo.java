@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RankRepo extends JpaRepository<UserRank, Integer>{
+public interface RankRepo extends JpaRepository<UserRank, String>{
     @Transactional
     @Modifying
     @Query("UPDATE UserRank u SET u.discordName = :name WHERE u.discordId = :id")

@@ -74,7 +74,7 @@ public class MyListener extends ListenerAdapter {
 
     private void removeUser(SlashCommandInteractionEvent event){
         logger.info("Remove user");
-        repo.deleteById(Integer.valueOf(event.getUser().getId()));
+        repo.deleteById(event.getUser().getId());
         event.reply("Deleted user").queue();
     }
 

@@ -39,7 +39,8 @@ public class MyListener extends ListenerAdapter {
         - `/setrank <Summoner-Name>` - Verlinkt Discord Profil mit League Account Format:[Joki#ANT].
         - `/help` - Zeigt diese Nachricht an.
         - `/removeuser` - Entfernt den nutzer aus der Datenbank, sodass der name erneut geändert werden kann.
-
+        - `/setnickname` - Ändert den nickname des Users.
+    
         """;
 
 
@@ -55,8 +56,16 @@ public class MyListener extends ListenerAdapter {
         }
         else if(event.getName().equals("help")){
                event.getChannel().sendMessage(helpMessage).queue();
+        } else if(event.getName().equals("setnickname")){
+            setNickname(event);
         }
 
+    }
+
+    private void setNickname(SlashCommandInteractionEvent event) {
+        logger.info("Set Nickname");
+        repo.updateDiscordName(event.getUser().getId(), event.getOption("nickname").getAsString());
+        event.reply("Nickname set!").queue();
     }
 
     private void removeUser(SlashCommandInteractionEvent event){

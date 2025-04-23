@@ -58,8 +58,7 @@ public class MyListener extends ListenerAdapter {
             setUser(event);
         }else if(event.getName().equals("removeuser")){
             removeUser(event);
-        }
-        else if(event.getName().equals("help")){
+        }else if(event.getName().equals("help")){
                event.getChannel().sendMessage(helpMessage).queue();
         } else if(event.getName().equals("setnickname")){
             setNickname(event);

@@ -48,7 +48,10 @@ public class RankService {
             return user;
         }
         else {
-            UserRank user = new UserRank(
+            //Guild guild = event.getGuild();
+
+
+            return new UserRank(
                     event.getUser().getId(),
                     event.getUser().getName(),
                     riotId,
@@ -58,10 +61,6 @@ public class RankService {
                     rank.getLeaguePoints(),
                     LocalDateTime.now()
             );
-            //Guild guild = event.getGuild();
-
-
-            return user;
 
         }
     }
@@ -74,7 +73,7 @@ public class RankService {
         guild.retrieveMemberById(user.getDiscordId()).queue(member -> {
 
 
-            guild.modifyNickname(member, user.getTier() + " " + user.getRank() + " | " + user.getLeaguePoints()).queue();
+            guild.modifyNickname(member,user.getDiscordName() + "~ " + user.getTier().charAt(0) + " " + user.getRank() + " | " + user.getLeaguePoints() + "LP").queue();
 
          });
     }

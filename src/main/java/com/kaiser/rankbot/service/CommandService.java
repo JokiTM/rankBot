@@ -2,7 +2,6 @@ package com.kaiser.rankbot.service;
 
 import jakarta.annotation.PostConstruct;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +14,8 @@ public class CommandService {
 
 
 
-    public static void registerCommands(Guild guild) {
-        guild.updateCommands().addCommands(
+    public static void registerCommands(JDA api) {
+        api.updateCommands().addCommands(
                 Commands.slash("setuser", "Sets the Summoners Name for the account")
                         .addOption(OptionType.STRING, "riotid", "riot Id (Example : JokiTM#ANT)", true),
                 Commands.slash("help", "Displays help message"),

@@ -33,7 +33,8 @@ public class MyListener extends ListenerAdapter {
             public void init() {
         jda.addEventListener(this);
         guild = jda.getGuildById("765991080528969798");
-        CommandService.registerCommands(guild);
+        guild.updateCommands().queue();
+        CommandService.registerCommands(jda);
 
     }
 

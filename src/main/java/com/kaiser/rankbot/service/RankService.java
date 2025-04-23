@@ -30,13 +30,13 @@ public class RankService {
 
         var puuid = riotApiService.getPuuid(riotId);
         var rank = riotApiService.fetchRankFromRiotApi(puuid);
-        var discordName = event.getUser().getName();
+        var discordName = event.getMember().getNickname();
         logger.info("discordName: {}", discordName);
         if (rank == null){
             event.reply("Unranked in Solo/Duo.").queue();
             UserRank user = new UserRank(
                     event.getUser().getId(),
-                    event.getUser().getName(),
+                    event.getMember().getNickname(),
                     riotId,
                     puuid,
                     "Unranked",

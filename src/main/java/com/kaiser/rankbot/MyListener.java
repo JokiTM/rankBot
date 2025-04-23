@@ -47,11 +47,19 @@ public class MyListener extends ListenerAdapter {
 
         if(event.getName().equals("setuser")){
             setUser(event);
-        }else if(event.getName().equals("help")){
+        }else if(event.getName().equals("removeuser")){
+            removeUser(event);
+        }
+        else if(event.getName().equals("help")){
                event.getChannel().sendMessage(helpMessage).queue();
-
         }
 
+    }
+
+    private void removeUser(SlashCommandInteractionEvent event){
+        logger.info("Remove user");
+        repo.deleteById(Integer.valueOf(event.getUser().getId()));
+        event.reply("Deleted user").queue();
     }
 
     private void setUser(SlashCommandInteractionEvent event){

@@ -20,7 +20,8 @@ public class CommandService {
         api.updateCommands().addCommands(
                 Commands.slash("setuser", "Sets the Summoners Name for the account")
                         .addOption(OptionType.STRING, "riotid", "riot Id (Example : JokiTM#ANT)", true),
-                Commands.slash("help", "Displays help message")
+                Commands.slash("help", "Displays help message"),
+                Commands.slash("removeuser", "Removes the user from database")
 
         ).queue();
     }

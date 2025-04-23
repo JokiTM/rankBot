@@ -19,6 +19,7 @@ import java.util.List;
 @Component
 public class MyListener extends ListenerAdapter {
     private static final Logger logger = LoggerFactory.getLogger(MyListener.class);
+    private Guild guild;
 
     @Autowired
     private RankService rankService;
@@ -27,10 +28,13 @@ public class MyListener extends ListenerAdapter {
     @Autowired
     private JDA jda;
 
+
     @PostConstruct
             public void init() {
         jda.addEventListener(this);
-        CommandService.registerCommands(jda);
+        guild = jda.getGuildById("765991080528969798");
+        CommandService.registerCommands(guild);
+
     }
 
 
@@ -97,7 +101,6 @@ public class MyListener extends ListenerAdapter {
 
         logger.info("Updating users");
         List<UserRank> userList = repo.findAll();
-        Guild guild = jda.getGuildById("765991080528969798");
 
         for (UserRank userRank : userList) {
             assert guild != null;

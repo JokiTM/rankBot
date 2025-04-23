@@ -1,6 +1,7 @@
 package com.kaiser.rankbot;
 
 import com.kaiser.rankbot.repo.RankRepo;
+import com.kaiser.rankbot.service.CommandService;
 import com.kaiser.rankbot.service.RankService;
 import jakarta.annotation.PostConstruct;
 import net.dv8tion.jda.api.JDA;
@@ -29,6 +30,7 @@ public class MyListener extends ListenerAdapter {
     @PostConstruct
             public void init() {
         jda.addEventListener(this);
+        CommandService.registerCommands(jda);
     }
 
 

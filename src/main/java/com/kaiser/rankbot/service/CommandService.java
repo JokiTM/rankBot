@@ -12,16 +12,15 @@ import org.springframework.stereotype.Service;
 public class CommandService {
 
 
-    @Autowired
-    JDA api;
 
-    @PostConstruct
-            public void registerCommands() {
+
+    public static void registerCommands(JDA api) {
         api.updateCommands().addCommands(
                 Commands.slash("setuser", "Sets the Summoners Name for the account")
                         .addOption(OptionType.STRING, "riotid", "riot Id (Example : JokiTM#ANT)", true),
                 Commands.slash("help", "Displays help message"),
-                Commands.slash("removeuser", "Removes the user from database")
+                Commands.slash("removeuser", "Removes the user from database"),
+                Commands.slash("setnickname", "Sets the User's Nickname")
 
         ).queue();
     }

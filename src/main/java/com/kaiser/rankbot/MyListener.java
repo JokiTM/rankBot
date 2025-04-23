@@ -61,7 +61,7 @@ public class MyListener extends ListenerAdapter {
             var user = rankService.setUser(event);
             logger.info("setuser user retrieved: {}", user);
             repo.save(user);
-            event.reply(user.getTier() + " " + user.getRank() + " | " + user.getLeaguePoints()).queue();
+            event.reply(user.getTier() + " " + user.getRank() + " | " + user.getLeaguePoints() + " LP").queue();
         } catch (Exception e) {
             logger.info(e.getMessage());
             if(e.getMessage().equals("riotId is invalid!")) {

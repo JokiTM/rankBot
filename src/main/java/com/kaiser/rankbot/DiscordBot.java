@@ -15,14 +15,5 @@ public class DiscordBot {
     static JDA api;
 	public static void main(String[] args) {
 		ConfigurableApplicationContext applicationContext = SpringApplication.run(DiscordBot.class, args);
-
-		// Get the listener bean from the application context
 	}
-
-	/*@PostConstruct
-	void registerListener(){
-		MyListener myListener = applicationContext.getBean(MyListener.class);
-
-		api.addEventListener(myListener);
-	}*/
 }

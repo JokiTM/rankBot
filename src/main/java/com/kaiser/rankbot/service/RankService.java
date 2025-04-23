@@ -24,12 +24,12 @@ public class RankService {
 
 
     public UserRank setUser(SlashCommandInteractionEvent event) throws Exception {
-
+        String riotIdPattern = "^[A-Za-z0-9 _\\.]{3,16}#[A-Za-z0-9]{2,5}$";
         logger.debug("setUser: {}", event.getUser());
 
         var riotId = event.getOption("riotid").getAsString();
 
-        if (!riotId.contains("#"))
+        if (!riotId.matches(riotIdPattern))
             throw new Exception("riotId is invalid!");
 
         var puuid = riotApiService.getPuuid(riotId);

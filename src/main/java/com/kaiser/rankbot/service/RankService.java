@@ -21,7 +21,7 @@ public class RankService {
 
     public UserRank setUser(SlashCommandInteractionEvent event) throws Exception {
 
-        logger.debug("setUser: {}", event.getUser());
+        logger.info("setUser: {}", event.getUser());
 
         var riotId = event.getOption("riotid").getAsString();
 
@@ -30,8 +30,8 @@ public class RankService {
 
         var puuid = riotApiService.getPuuid(riotId);
         var rank = riotApiService.fetchRankFromRiotApi(puuid);
-
-
+        var discordName = event.getUser().getName();
+        logger.info("discordName: {}", discordName);
         if (rank == null){
             event.reply("Unranked in Solo/Duo.").queue();
             UserRank user = new UserRank(
@@ -44,7 +44,7 @@ public class RankService {
                     0,
                     LocalDateTime.now());
 
-            logger.debug("RankService got User: {}", user);
+            logger.info("RankService got User: {}", user);
             return user;
         }
         else {
@@ -73,7 +73,7 @@ public class RankService {
         guild.retrieveMemberById(user.getDiscordId()).queue(member -> {
 
 
-            guild.modifyNickname(member,user.getDiscordName() + "~ " + user.getTier().charAt(0) + " " + user.getRank() + " | " + user.getLeaguePoints() + "LP").queue();
+            guild.modifyNickname(member,user.getDiscordName() + " ~ " + user.getTier().charAt(0) + " " + user.getRank() + " | " + user.getLeaguePoints() + "LP").queue();
 
          });
     }

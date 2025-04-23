@@ -53,7 +53,7 @@ public class RankService {
 
             return new UserRank(
                     event.getUser().getId(),
-                    event.getUser().getName(),
+                    event.getMember().getNickname(),
                     riotId,
                     puuid,
                     rank.getRank(),

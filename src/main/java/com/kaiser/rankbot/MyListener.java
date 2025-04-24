@@ -108,8 +108,16 @@ public class MyListener extends ListenerAdapter {
 
         for (UserRank userRank : userList) {
             assert guild != null;
-            rankService.updateUser(userRank);
-            rankService.modifyNickname(guild, userRank);
+            try {
+                rankService.updateUser(userRank);
+                rankService.modifyNickname(guild, userRank, userRank.getDiscordName() + " ~ " + userRank.getTier().charAt(0) + " " + userRank.getRank() + " | " + userRank.getLeaguePoints() + "LP");
+
+            }catch (Exception e) {
+                logger.info("Couldn't update user: {}", e.getMessage());
+                rankService.modifyNickname(guild, userRank, userRank.getDiscordName());
+                repo.deleteById(userRank.getDiscordId());
+            }
         }
+
     }
 }

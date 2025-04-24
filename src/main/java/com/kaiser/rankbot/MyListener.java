@@ -32,7 +32,7 @@ public class MyListener extends ListenerAdapter {
     @PostConstruct
             public void init() {
         jda.addEventListener(this);
-        guild = jda.getGuildById("765991080528969798");
+        guild = jda.getGuildById(System.getenv("GUILD_ID"));
         CommandService.registerCommands(jda);
 
     }

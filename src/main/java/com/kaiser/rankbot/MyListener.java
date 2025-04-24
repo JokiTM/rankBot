@@ -103,7 +103,7 @@ public class MyListener extends ListenerAdapter {
     @Scheduled(fixedRate = 5000)
     private void updateUser(){
 
-        logger.info("Updating users");
+        logger.info("Updating users Guild ID: " + guild.getId() );
         List<UserRank> userList = repo.findAll();
 
         for (UserRank userRank : userList) {

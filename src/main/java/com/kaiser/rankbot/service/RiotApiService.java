@@ -3,6 +3,9 @@ package com.kaiser.rankbot.service;
 
 import com.kaiser.rankbot.responses.RankResponse;
 import com.kaiser.rankbot.responses.SummonerPuuid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +15,8 @@ public class RiotApiService {
 
     private final RestTemplate restTemplate;
     private String apiKey;
+    private static final Logger logger = LoggerFactory.getLogger(RiotApiService.class);
+
 
     public RiotApiService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
@@ -21,7 +26,7 @@ public class RiotApiService {
 
 
 
-    public String getPuuid(String riotId) {
+    public String getPuuid(String riotId) throws Exception {
 
         String name = riotId.substring(0 ,riotId.indexOf('#'));
         String tag = riotId.substring(riotId.indexOf('#')+1);
@@ -30,13 +35,15 @@ public class RiotApiService {
 
         String getPuuid = "https://europe.api.riotgames.com/riot/account/v1/accounts/by-riot-id/" + name + "/" + tag + "?api_key=" + apiKey;
 
-        try {
+
+
+            logger.info("Fetching puuid from riot API: {}", getPuuid);
             ResponseEntity<SummonerPuuid> response = restTemplate.getForEntity(getPuuid, SummonerPuuid.class);
+            if(response.getStatusCode() != HttpStatus.OK || response.getBody().getPuuid() == null) {
+                throw new Exception("Error while fetching puuid from riot API");
+            }
             return response.getBody().getPuuid();
-        } catch (Exception e) {
-            System.err.println("Fehler beim Abrufen der Summoner-ID: " + e.getMessage());
-            return null;
-        }
+
     }
 
     public RankResponse fetchRankFromRiotApi(String puuid) {
@@ -54,7 +61,7 @@ public class RiotApiService {
             return null;
 
         } catch (Exception e) {
-            System.err.println("Fehler beim Abrufen des Ranges: " + e.getMessage());
+            logger.error("Fehler beim Abrufen des Ranges: {}", e.getMessage());
             return null;
         }
     }

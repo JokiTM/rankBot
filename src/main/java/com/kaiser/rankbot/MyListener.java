@@ -94,8 +94,10 @@ public class MyListener extends ListenerAdapter {
             event.reply(user.getTier() + " " + user.getRank() + " | " + user.getLeaguePoints() + " LP").queue();
         } catch (Exception e) {
             logger.info(e.getMessage());
-            if(e.getMessage().equals("riotId is invalid!")) {
+            if (e.getMessage().equals("riotId is invalid!")) {
                 event.reply("riotId is invalid!").queue();
+            } else if (e.getMessage().equals("Error while fetching puuid from riot API")) {
+                event.reply("Error while fetching puuid from riot API. User was not saved.").queue();
             }
         }
     }

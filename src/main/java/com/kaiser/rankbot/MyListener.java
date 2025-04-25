@@ -32,7 +32,7 @@ public class MyListener extends ListenerAdapter {
     @PostConstruct
             public void init() {
         jda.addEventListener(this);
-        guild = jda.getGuildById("765991080528969798");
+        guild = jda.getGuildById(System.getenv("GUILD_ID"));
         CommandService.registerCommands(jda);
 
     }
@@ -67,6 +67,10 @@ public class MyListener extends ListenerAdapter {
 
     private void setNickname(SlashCommandInteractionEvent event) {
         logger.info("Set Nickname");
+        if(!repo.existsById(event.getUser().getId())) {
+            event.reply("Nutzer nicht registriert! Benutzer /setuser, um dich zu registrieren!").queue();
+            return;
+        }
         var newName = event.getOption("nickname").getAsString();
         if(newName.length() > 16){
             event.reply("Nickname is too long(Max 16 chars").queue();
@@ -110,8 +114,16 @@ public class MyListener extends ListenerAdapter {
 
         for (UserRank userRank : userList) {
             assert guild != null;
-            rankService.updateUser(userRank);
-            rankService.modifyNickname(guild, userRank);
+            try {
+                rankService.updateUser(userRank);
+                rankService.modifyNickname(guild, userRank, userRank.getDiscordName() + " ~ " + userRank.getTier().charAt(0) + " " + userRank.getRank() + " | " + userRank.getLeaguePoints() + "LP");
+
+            }catch (Exception e) {
+                logger.info("Couldn't update user: {}. User will be deleted from db", e.getMessage());
+                rankService.modifyNickname(guild, userRank, userRank.getDiscordName());
+                repo.deleteById(userRank.getDiscordId());
+            }
         }
+
     }
 }

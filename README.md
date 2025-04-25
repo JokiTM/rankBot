@@ -27,7 +27,7 @@
 ## 📦 Setup & Installation
 
 ### 🔧 Prerequisites
-
+- Discord bot initialized
 - Docker & Docker Compose installed
 - `.env` file with your API keys
 
@@ -39,7 +39,8 @@ DISCORD_BOT_TOKEN=your-discord-bot-token
 ```
 
 ### ▶️ Start the Bot
-
+configure `.env.template` with your API keys and guild ID
+rename `.env.template` to `.env`
 ```bash
 docker-compose up --build
 ```
@@ -59,7 +60,7 @@ The bot and database will launch together via Docker Compose.
 
 | Slash Command              | Description |
 |----------------------------|-------------|
-| `/setrank <Summoner-Name>` | Links the Discord user to a League account. Format: `Joki#ANT` |
+| `/setuser <Summoner-Name>` | Links the Discord user to a League account. Format: `Joki#ANT` |
 | `/help`                    | Displays this help message |
 | `/removeuser`              | Unlinks the user and removes them from the database |
 | `/setnickname`             | Allows the user to personalize their nickname |

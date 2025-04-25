@@ -29,6 +29,9 @@ public class RankService {
             throw new Exception("riotId is invalid!");
 
         var puuid = riotApiService.getPuuid(riotId);
+        if (puuid == null){
+            throw new Exception("puuid is null!");
+        }
         var rank = riotApiService.fetchRankFromRiotApi(puuid);
         var discordName = event.getMember().getNickname();
 
@@ -69,16 +72,16 @@ public class RankService {
     }
 
 
-    public void modifyNickname(Guild guild, UserRank user){
+    public void modifyNickname(Guild guild, UserRank user, String newNickname){
 
         System.out.println("Modify nickname from: " + user.getDiscordId() + " rank: " + user.getTier() + " " + user.getRank() + " | " + user.getLeaguePoints() + " LP");
 
         guild.retrieveMemberById(user.getDiscordId()).queue(member -> {
-            guild.modifyNickname(member,user.getDiscordName() + " ~ " + user.getTier().charAt(0) + " " + user.getRank() + " | " + user.getLeaguePoints() + "LP").queue();
+            guild.modifyNickname(member,newNickname).queue();
         });
     }
 
-    public void updateUser(UserRank userRank) {
+    public void updateUser(UserRank userRank) throws Exception {
         var rank = riotApiService.fetchRankFromRiotApi(userRank.getPuuid());
         userRank.setRank(rank.getRank());
         userRank.setTier(rank.getTier());

@@ -46,8 +46,11 @@ public class RiotApiService {
 
     }
 
-    public RankResponse fetchRankFromRiotApi(String puuid) {
+    public RankResponse fetchRankFromRiotApi(String puuid) throws Exception {
 
+        if(puuid == null) {
+            throw new Exception("puuid is null");
+        }
 
         String url = "https://euw1.api.riotgames.com/lol/league/v4/entries/by-puuid/" + puuid + "?api_key=" + apiKey;
         try {

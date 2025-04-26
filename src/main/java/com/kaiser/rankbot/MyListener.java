@@ -67,16 +67,19 @@ public class MyListener extends ListenerAdapter {
 
     private void setNickname(SlashCommandInteractionEvent event) {
         logger.info("Set Nickname");
-        if(!repo.existsById(event.getUser().getId())) {
-            event.reply("Nutzer nicht registriert! Benutzer /setuser, um dich zu registrieren!").queue();
-            return;
-        }
+        var user = event.getUser();
         var newName = event.getOption("nickname").getAsString();
         if(newName.length() > 16){
             event.reply("Nickname is too long(Max 16 chars").queue();
             return;
         }
-        repo.updateDiscordName(event.getUser().getId(), newName);
+        var userRank = repo.findById(user.getId()).orElse(null);
+        if(userRank == null) {
+            event.reply("Nutzer nicht registriert! Benutzer /setuser, um dich zu registrieren!").queue();
+            return;
+        }
+        repo.updateDiscordName(user.getId(), newName);
+        rankService.modifyNickname(guild, userRank, userRank.getDiscordName() + " ~ " + userRank.getTier().charAt(0) + " " + userRank.getRank() + " | " + userRank.getLeaguePoints() + "LP");
         event.reply("Nickname set!").queue();
     }
 

@@ -109,7 +109,7 @@ public class MyListener extends ListenerAdapter {
         }
     }
 
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRate = 15000)
     private void updateUser(){
 
         logger.info("Updating users");

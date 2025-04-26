@@ -79,7 +79,7 @@ public class MyListener extends ListenerAdapter {
             return;
         }
         repo.updateDiscordName(user.getId(), newName);
-        rankService.modifyNickname(guild, userRank, userRank.getDiscordName() + " ~ " + userRank.getTier().charAt(0) + " " + userRank.getRank() + " | " + userRank.getLeaguePoints() + "LP");
+        rankService.modifyNickname(guild, userRank, newName + " ~ " + userRank.getTier().charAt(0) + " " + userRank.getRank() + " | " + userRank.getLeaguePoints() + "LP");
         event.reply("Nickname set!").queue();
     }
 

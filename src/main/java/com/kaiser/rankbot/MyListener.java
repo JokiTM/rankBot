@@ -19,7 +19,6 @@ import java.util.List;
 @Component
 public class MyListener extends ListenerAdapter {
     private static final Logger logger = LoggerFactory.getLogger(MyListener.class);
-    private Guild guild;
 
     @Autowired
     private RankService rankService;
@@ -32,7 +31,6 @@ public class MyListener extends ListenerAdapter {
     @PostConstruct
             public void init() {
         jda.addEventListener(this);
-        guild = jda.getGuildById(System.getenv("GUILD_ID"));
         CommandService.registerCommands(jda);
 
     }
@@ -79,7 +77,7 @@ public class MyListener extends ListenerAdapter {
             return;
         }
         repo.updateDiscordName(user.getId(), newName);
-        rankService.modifyNickname(guild, userRank, newName + " ~ " + userRank.getTier().charAt(0) + " " + userRank.getRank() + " | " + userRank.getLeaguePoints() + "LP");
+        rankService.modifyNickname(event.getGuild(), userRank, newName + " ~ " + userRank.getTier().charAt(0) + " " + userRank.getRank() + " | " + userRank.getLeaguePoints() + "LP");
         event.reply("Nickname set!").queue();
     }
 
@@ -92,7 +90,6 @@ public class MyListener extends ListenerAdapter {
 
     private void setUser(SlashCommandInteractionEvent event){
         logger.info("setuser");
-        //if user exists -> update
 
         try {
             var user = rankService.setUser(event);
@@ -116,13 +113,19 @@ public class MyListener extends ListenerAdapter {
         List<UserRank> userList = repo.findAll();
 
         for (UserRank userRank : userList) {
-            assert guild != null;
+
+                var guild = jda.getGuildById(userRank.getGuildId());
+                if(guild == null) {
+                    logger.error("Guild {} not found. Deleting user {}", userRank.getGuildId(), userRank.getDiscordId());
+                    repo.deleteById(userRank.getDiscordId());
+                    continue;
+                }
             try {
                 rankService.updateUser(userRank);
                 rankService.modifyNickname(guild, userRank, userRank.getDiscordName() + " ~ " + userRank.getTier().charAt(0) + " " + userRank.getRank() + " | " + userRank.getLeaguePoints() + "LP");
 
             }catch (Exception e) {
-                logger.info("Couldn't update user: {}. User will be deleted from db", e.getMessage());
+                logger.error("Couldn't update user: {} Error: {}. User will be deleted from db",userRank.getDiscordName(), e.getMessage());
                 rankService.modifyNickname(guild, userRank, userRank.getDiscordName());
                 repo.deleteById(userRank.getDiscordId());
             }

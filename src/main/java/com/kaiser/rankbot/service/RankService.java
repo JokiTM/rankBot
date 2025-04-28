@@ -43,6 +43,7 @@ public class RankService {
             UserRank user = new UserRank(
                     event.getUser().getId(),
                     newName,
+                    event.getGuild().getId(),
                     riotId,
                     puuid,
                     "Unranked",
@@ -60,6 +61,7 @@ public class RankService {
             return new UserRank(
                     event.getUser().getId(),
                     newName,
+                    event.getGuild().getId(),
                     riotId,
                     puuid,
                     rank.getRank(),
@@ -82,9 +84,27 @@ public class RankService {
     }
 
     public void updateUser(UserRank userRank) throws Exception {
-        var rank = riotApiService.fetchRankFromRiotApi(userRank.getPuuid());
-        userRank.setRank(rank.getRank());
-        userRank.setTier(rank.getTier());
-        userRank.setLeaguePoints(rank.getLeaguePoints());
+        try {
+            var rank = riotApiService.fetchRankFromRiotApi(userRank.getPuuid());
+            if (rank == null) {
+                // User is unranked, but this isn't an error
+                userRank.setRank("Unranked");
+                userRank.setTier("Unranked");
+                userRank.setLeaguePoints(0);
+                return;
+            }
+            userRank.setRank(rank.getRank());
+            userRank.setTier(rank.getTier());
+            userRank.setLeaguePoints(rank.getLeaguePoints());
+        } catch (Exception e) {
+            if (e.getMessage().contains("Rate limit")) {
+                // Don't update the user if we hit rate limits, just skip this update
+                logger.warn("Skipping update for user {} due to rate limit", userRank.getDiscordId());
+                throw new Exception("Rate limit reached - skipping update");
+            }
+            // For other API errors, log but don't delete the user
+            logger.error("Error updating user {}: {}", userRank.getDiscordId(), e.getMessage());
+            throw e;
+        }
     }
 }

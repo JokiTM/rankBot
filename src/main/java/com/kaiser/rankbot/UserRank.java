@@ -18,6 +18,7 @@ public class UserRank {
     @Id
     private String discordId;
     private String discordName;
+    private String guildId;
     private String riotId;
     private String puuid;
     private String rank;

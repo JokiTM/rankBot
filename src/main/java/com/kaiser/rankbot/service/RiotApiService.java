@@ -15,7 +15,7 @@ import org.springframework.web.client.HttpStatusCodeException;
 public class RiotApiService {
 
     private final RestTemplate restTemplate;
-    private String apiKey;
+    private final String apiKey;
     private static final Logger logger = LoggerFactory.getLogger(RiotApiService.class);
 
 

@@ -5,7 +5,6 @@ import com.kaiser.rankbot.service.CommandService;
 import com.kaiser.rankbot.service.RankService;
 import jakarta.annotation.PostConstruct;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.slf4j.Logger;

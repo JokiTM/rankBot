@@ -39,7 +39,8 @@ DISCORD_BOT_TOKEN=your-discord-bot-token
 ```
 
 ### ▶️ Start the Bot
-configure `.env.template` with your API keys and guild ID
+setup discord bot and add to server
+configure `.env.template` with your API key and discord bot token
 rename `.env.template` to `.env`
 ```bash
 docker-compose up --build

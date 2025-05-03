@@ -76,7 +76,7 @@ public class RankService {
 
     public void modifyNickname(Guild guild, UserRank user, String newNickname){
 
-        System.out.println("Modify nickname from: " + user.getDiscordId() + " rank: " + user.getTier() + " " + user.getRank() + " | " + user.getLeaguePoints() + " LP");
+        System.out.println("Modify nickname from: " + user.getDiscordName() + " rank: " + user.getTier() + " " + user.getRank() + " | " + user.getLeaguePoints() + " LP");
 
         guild.retrieveMemberById(user.getDiscordId()).queue(member -> {
             guild.modifyNickname(member,newNickname).queue();

@@ -111,20 +111,20 @@ public class MyListener extends ListenerAdapter {
         logger.info("Updating users");
         List<UserRank> userList = repo.findAll();
 
-        for (UserRank userRank : userList) {
-
-                var guild = jda.getGuildById(userRank.getGuildId());
+        for (UserRank user : userList) {
+                logger.info("Updating User: {}; id: {}", user.getDiscordName(), user.getDiscordId());
+                var guild = jda.getGuildById(user.getGuildId());
                 if(guild == null) {
-                    logger.error("Guild {} not found. Deleting user {}", userRank.getGuildId(), userRank.getDiscordId());
-                    repo.deleteById(userRank.getDiscordId());
+                    logger.error("Guild {} not found. Deleting user {}", user.getGuildId(), user.getDiscordId());
+                    repo.deleteById(user.getDiscordId());
                     continue;
                 }
             try {
-                rankService.updateUser(userRank);
-                rankService.modifyNickname(guild, userRank, userRank.getDiscordName() + " ~ " + userRank.getTier().charAt(0) + " " + userRank.getRank() + " | " + userRank.getLeaguePoints() + "LP");
+                rankService.updateUser(user);
+                rankService.modifyNickname(guild, user, user.getDiscordName() + " ~ " + user.getTier().charAt(0) + " " + user.getRank() + " | " + user.getLeaguePoints() + "LP");
 
             }catch (Exception e) {
-                logger.error("Couldn't update user: {}; Error: {}. ",userRank.getDiscordName(), e.getMessage());
+                logger.error("Couldn't update user: {}; Error: {}. ",user.getDiscordName(), e.getMessage());
             }
         }
 

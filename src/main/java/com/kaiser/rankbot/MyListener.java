@@ -124,9 +124,7 @@ public class MyListener extends ListenerAdapter {
                 rankService.modifyNickname(guild, userRank, userRank.getDiscordName() + " ~ " + userRank.getTier().charAt(0) + " " + userRank.getRank() + " | " + userRank.getLeaguePoints() + "LP");
 
             }catch (Exception e) {
-                logger.error("Couldn't update user: {} Error: {}. User will be deleted from db",userRank.getDiscordName(), e.getMessage());
-                rankService.modifyNickname(guild, userRank, userRank.getDiscordName());
-                repo.deleteById(userRank.getDiscordId());
+                logger.error("Couldn't update user: {}; Error: {}. ",userRank.getDiscordName(), e.getMessage());
             }
         }
 

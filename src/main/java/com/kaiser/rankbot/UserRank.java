@@ -23,7 +23,7 @@ public class UserRank {
     private String puuid;
     private String rank;
     private String tier;
-    private Integer leaguePoints;
+    private int leaguePoints;
     private LocalDateTime lastUpdated;
 
 }

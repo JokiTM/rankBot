@@ -38,7 +38,7 @@ public class MyListener extends ListenerAdapter {
 
     String helpMessage = """
         **Verfügbare Befehle:**
-        - `/setrank <Summoner-Name>` - Verlinkt Discord Profil mit League Account Format:[Joki#ANT].
+        - `/setuser <Summoner-Name>` - Verlinkt Discord Profil mit League Account Format:[Joki#ANT].
         - `/help` - Zeigt diese Nachricht an.
         - `/removeuser` - Entfernt den nutzer aus der Datenbank, sodass der name erneut geändert werden kann.
         - `/setnickname` - Ändert den nickname des Users.

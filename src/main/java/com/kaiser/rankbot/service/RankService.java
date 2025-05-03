@@ -9,12 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 
 @Service
 public class RankService {
     private static final Logger logger = LoggerFactory.getLogger(RankService.class);
-    String riotIdPattern = "^[A-Za-z0-9 _\\.]{3,16}#[A-Za-z0-9]{2,5}$";
+    String riotIdPattern = "^[A-Za-z0-9 _.]{3,16}#[A-Za-z0-9]{2,5}$";
     @Autowired
     private RiotApiService riotApiService;
 
@@ -23,7 +24,7 @@ public class RankService {
 
         logger.info("setUser: {}", event.getUser());
 
-        var riotId = event.getOption("riotid").getAsString();
+        var riotId = Objects.requireNonNull(event.getOption("riotid")).getAsString();
 
         if (!riotId.matches(riotIdPattern))
             throw new Exception("riotId is invalid!");
@@ -33,8 +34,9 @@ public class RankService {
             throw new Exception("puuid is null!");
         }
         var rank = riotApiService.fetchRankFromRiotApi(puuid);
-        var discordName = event.getMember().getNickname();
+        var discordName = Objects.requireNonNull(event.getMember()).getNickname();
 
+        assert discordName != null;
         String newName = discordName.substring(0, Math.min(discordName.length(), 16));
 
         logger.info("discordName: {}", discordName);
@@ -43,7 +45,7 @@ public class RankService {
             UserRank user = new UserRank(
                     event.getUser().getId(),
                     newName,
-                    event.getGuild().getId(),
+                    Objects.requireNonNull(event.getGuild()).getId(),
                     riotId,
                     puuid,
                     "Unranked",
@@ -61,7 +63,7 @@ public class RankService {
             return new UserRank(
                     event.getUser().getId(),
                     newName,
-                    event.getGuild().getId(),
+                    Objects.requireNonNull(event.getGuild()).getId(),
                     riotId,
                     puuid,
                     rank.getRank(),
@@ -78,9 +80,7 @@ public class RankService {
 
         System.out.println("Modify nickname from: " + user.getDiscordName() + " rank: " + user.getTier() + " " + user.getRank() + " | " + user.getLeaguePoints() + " LP");
 
-        guild.retrieveMemberById(user.getDiscordId()).queue(member -> {
-            guild.modifyNickname(member,newNickname).queue();
-        });
+        guild.retrieveMemberById(user.getDiscordId()).queue(member -> guild.modifyNickname(member, newNickname).queue());
     }
 
     public void updateUser(UserRank userRank) throws Exception {

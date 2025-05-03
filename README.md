@@ -59,12 +59,12 @@ The bot and database will launch together via Docker Compose.
 
 ## 📜 Commands
 
-| Slash Command              | Description |
-|----------------------------|-------------|
+| Slash Command              | Description                                                    |
+|----------------------------|----------------------------------------------------------------|
 | `/setuser <Summoner-Name>` | Links the Discord user to a League account. Format: `Joki#ANT` |
-| `/help`                    | Displays this help message |
-| `/removeuser`              | Unlinks the user and removes them from the database |
-| `/setnickname`             | Allows the user to personalize their nickname |
+| `/help`                    | Displays this help message                                     |
+| `/removeuser`              | Unlinks the user and removes them from the database            |
+| `/setnickname`             | Allows the user to personalize their nickname                  |
 
 ---
 

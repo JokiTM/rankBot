@@ -14,6 +14,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
 
 @Component
 public class MyListener extends ListenerAdapter {
@@ -65,7 +66,7 @@ public class MyListener extends ListenerAdapter {
     private void setNickname(SlashCommandInteractionEvent event) {
         logger.info("Set Nickname");
         var user = event.getUser();
-        var newName = event.getOption("nickname").getAsString();
+        var newName = Objects.requireNonNull(event.getOption("nickname")).getAsString();
         if(newName.length() > 16){
             event.reply("Nickname is too long(Max 16 chars").queue();
             return;
@@ -76,7 +77,7 @@ public class MyListener extends ListenerAdapter {
             return;
         }
         repo.updateDiscordName(user.getId(), newName);
-        rankService.modifyNickname(event.getGuild(), userRank, newName + " ~ " + userRank.getTier().charAt(0) + " " + userRank.getRank() + " | " + userRank.getLeaguePoints() + "LP");
+        rankService.modifyNickname(Objects.requireNonNull(event.getGuild()), userRank, newName + " ~ " + userRank.getTier().charAt(0) + " " + userRank.getRank() + " | " + userRank.getLeaguePoints() + "LP");
         event.reply("Nickname set!").queue();
     }
 

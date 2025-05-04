@@ -128,7 +128,7 @@ public class MyListener extends ListenerAdapter {
                 logger.error("Couldn't update user: {}; Error: {}. ",user.getDiscordName(), e.getMessage());
             }
         }
-        logger.info("Finished updating users\n\n\n ");
+        logger.info("Finished updating users\n\n\n\n\n\n");
 
 
     }

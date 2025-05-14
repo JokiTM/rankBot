@@ -116,8 +116,8 @@ public class MyListener extends ListenerAdapter {
                 logger.info("Updating User: {}; id: {}", user.getDiscordName(), user.getDiscordId());
                 var guild = jda.getGuildById(user.getGuildId());
                 if(guild == null) {
-                    logger.error("Guild {} not found. Deleting user {}", user.getGuildId(), user.getDiscordId());
-                    repo.deleteById(user.getDiscordId());
+                    logger.error("Guild {} not found. Skipping User {}", user.getGuildId(), user.getDiscordId());
+                    //repo.deleteById(user.getDiscordId());
                     continue;
                 }
             try {

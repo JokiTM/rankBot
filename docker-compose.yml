@@ -5,7 +5,7 @@ services:
     restart: unless-stopped
     environment:
       POSTGRES_USER: botuser
-      POSTGRES_PASSWORD: supersecret
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: botdb
     volumes:
       - postgres_data:/var/lib/postgresql/data

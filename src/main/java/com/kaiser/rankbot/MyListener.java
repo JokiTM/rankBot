@@ -108,9 +108,9 @@ public class MyListener extends ListenerAdapter {
   @Scheduled(fixedRate = 15000)
   private void updateUser() {
 
-    logger.info("Updating users");
+    logger.info("Updating users...");
     List<UserRank> userList = repo.findAll();
-
+    logger.info("Retrieved {} users from DB", userList.size());
     for (UserRank user : userList) {
       logger.info("Updating User: {}; id: {}", user.getDiscordName(), user.getDiscordId());
       var guild = jda.getGuildById(user.getGuildId());
@@ -128,7 +128,7 @@ public class MyListener extends ListenerAdapter {
         logger.error("Couldn't update user: {}; Error: {}. ", user.getDiscordName(), e.getMessage());
       }
     }
-    logger.info("Finished updating users\n\n\n\n\n\n");
+    logger.info("Finished updating users\n\n\n");
 
   }
 }

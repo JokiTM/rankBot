@@ -73,7 +73,7 @@ public class RankService {
   public void modifyNickname(Guild guild, UserRank user, String newNickname) {
 
     logger.info("Modify nickname from: {} | rank:{} {} | {} LP", user.getDiscordName(), user.getTier(), user.getRank(),
-        +user.getLeaguePoints());
+        user.getLeaguePoints());
 
     guild.retrieveMemberById(user.getDiscordId()).queue(member -> guild.modifyNickname(member, newNickname).queue());
   }

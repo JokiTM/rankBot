@@ -42,7 +42,7 @@ public class RankService {
     String discordName = event.getUser().getName();
     assert discordName != null;
     String newName = discordName.substring(0, Math.min(discordName.length(), 16));
-    UserRank user = null
+    UserRank user = null;
     if (rank == null) {
       event.reply("Unranked in Solo/Duo.").queue();
       user = new UserRank(

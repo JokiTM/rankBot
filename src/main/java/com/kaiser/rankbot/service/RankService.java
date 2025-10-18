@@ -32,8 +32,12 @@ public class RankService {
       throw new Exception("puuid is null!");
     }
     var rank = riotApiService.fetchRankFromRiotApi(puuid);
-    var discordName = Objects.requireNonNull(event.getMember()).getNickname();
+    // var discordName = Objects.requireNonNull(event.getMember()).getNickname();
 
+    String discordName = event.getMember().getNickname();
+    if (discordName == null) {
+      discordName = event.getUser().getName(); // fallback to username if no nickname
+    }
     assert discordName != null;
     String newName = discordName.substring(0, Math.min(discordName.length(), 16));
 

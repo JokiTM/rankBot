@@ -4,16 +4,16 @@ import net.dv8tion.jda.api.JDA;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableScheduling
 public class DiscordBot {
 
-	@Autowired
-    static JDA api;
-	public static void main(String[] args) {
-		ConfigurableApplicationContext applicationContext = SpringApplication.run(DiscordBot.class, args);
-	}
+  @Autowired
+  static JDA api;
+
+  public static void main(String[] args) {
+    SpringApplication.run(DiscordBot.class, args);
+  }
 }

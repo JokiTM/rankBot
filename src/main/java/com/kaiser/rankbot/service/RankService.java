@@ -42,11 +42,10 @@ public class RankService {
     String discordName = event.getUser().getName();
     assert discordName != null;
     String newName = discordName.substring(0, Math.min(discordName.length(), 16));
-
-    logger.info("discordName: {}", discordName);
+    UserRank user = null
     if (rank == null) {
       event.reply("Unranked in Solo/Duo.").queue();
-      UserRank user = new UserRank(
+      user = new UserRank(
           event.getUser().getId(),
           newName,
           Objects.requireNonNull(event.getGuild()).getId(),
@@ -57,12 +56,10 @@ public class RankService {
           0,
           LocalDateTime.now());
 
-      logger.info("RankService got User: {}", user);
-      return user;
     } else {
       // Guild guild = event.getGuild();
 
-      return new UserRank(
+      user = new UserRank(
           event.getUser().getId(),
           newName,
           Objects.requireNonNull(event.getGuild()).getId(),
@@ -74,6 +71,8 @@ public class RankService {
           LocalDateTime.now());
 
     }
+    logger.info(" got User: {}", user);
+    return user;
   }
 
   public void modifyNickname(Guild guild, UserRank user, String newNickname) {

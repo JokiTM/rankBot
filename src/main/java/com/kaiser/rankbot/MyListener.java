@@ -92,7 +92,6 @@ public class MyListener extends ListenerAdapter {
 
     try {
       var user = rankService.setUser(event);
-      logger.info("setuser user retrieved: {}", user);
       repo.save(user);
       event.reply(user.getTier() + " " + user.getRank() + " | " + user.getLeaguePoints() + " LP").queue();
     } catch (Exception e) {

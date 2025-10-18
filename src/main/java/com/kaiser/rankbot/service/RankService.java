@@ -34,10 +34,12 @@ public class RankService {
     var rank = riotApiService.fetchRankFromRiotApi(puuid);
     // var discordName = Objects.requireNonNull(event.getMember()).getNickname();
 
-    String discordName = event.getMember().getNickname();
-    if (discordName == null) {
-      discordName = event.getUser().getName(); // fallback to username if no nickname
-    }
+    // String discordName = event.getMember().getNickname();
+    // if (discordName == null) {
+    // discordName = event.getUser().getName(); // fallback to username if no
+    // nickname
+    // }
+    String discordName = event.getUser().getName();
     assert discordName != null;
     String newName = discordName.substring(0, Math.min(discordName.length(), 16));
 

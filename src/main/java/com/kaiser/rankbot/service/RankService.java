@@ -71,7 +71,7 @@ public class RankService {
           LocalDateTime.now());
 
     }
-    logger.info(" got User: {}", user);
+    logger.info("Got User: {}", user);
     return user;
   }
 

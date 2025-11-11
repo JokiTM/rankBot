@@ -19,6 +19,7 @@ import java.util.Objects;
 @Component
 public class MyListener extends ListenerAdapter {
   private static final Logger logger = LoggerFactory.getLogger(MyListener.class);
+  private int updateCount;
 
   @Autowired
   private RankService rankService;
@@ -93,6 +94,7 @@ public class MyListener extends ListenerAdapter {
     try {
       var user = rankService.setUser(event);
       repo.save(user);
+      logger.info("Set user successfull: {}", event.getUser());
       event.reply(user.getTier() + " " + user.getRank() + " | " + user.getLeaguePoints() + " LP").queue();
     } catch (Exception e) {
       logger.info(e.getMessage());
@@ -106,12 +108,19 @@ public class MyListener extends ListenerAdapter {
 
   @Scheduled(fixedRate = 15000)
   private void updateUser() {
-
-    logger.info("Updating users...");
+    boolean log = false;
+    if (updateCount % 100 == 0)
+      log = true;
+    if (log)
+      logger.info("Updating users..");
+    if (log)
+      logger.info("Update Count{}", updateCount);
     List<UserRank> userList = repo.findAll();
-    logger.info("Retrieved {} users from DB", userList.size());
+    if (log)
+      logger.info("Retrieved {} users from DB", userList.size());
     for (UserRank user : userList) {
-      logger.info("Updating User: {}; id: {}", user.getDiscordName(), user.getDiscordId());
+      if (log)
+        logger.info("Updating User: {}; id: {}", user.getDiscordName(), user.getDiscordId());
       var guild = jda.getGuildById(user.getGuildId());
       if (guild == null) {
         logger.error("Guild {} not found. Skipping User {}", user.getGuildId(), user.getDiscordId());
@@ -127,7 +136,8 @@ public class MyListener extends ListenerAdapter {
         logger.error("Couldn't update user: {}; Error: {}. ", user.getDiscordName(), e.getMessage());
       }
     }
-    logger.info("Finished updating users\n\n\n");
-
+    if (log)
+      logger.info("Finished updating users\n\n\n");
+    updateCount++;
   }
 }

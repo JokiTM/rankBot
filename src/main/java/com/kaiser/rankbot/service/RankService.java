@@ -75,7 +75,7 @@ public class RankService {
     return user;
   }
 
-  public void modifyNickname(Guild guild, UserRank user, String newNickname, bool log) {
+  public void modifyNickname(Guild guild, UserRank user, String newNickname, boolean log) {
 
     if(log) logger.info("Modify nickname from: {} | rank:{} {} | {} LP", user.getDiscordName(), user.getTier(), user.getRank(),
         user.getLeaguePoints());

@@ -106,7 +106,7 @@ public class MyListener extends ListenerAdapter {
     }
   }
 
-  @Scheduled(fixedRate = 15000)
+  @Scheduled(fixedRate = 5000)
   private void updateUser() {
     boolean log = false;
     if (updateCount % 100 == 0)

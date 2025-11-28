@@ -78,7 +78,7 @@ public class MyListener extends ListenerAdapter {
     }
     repo.updateDiscordName(user.getId(), newName);
     rankService.modifyNickname(Objects.requireNonNull(event.getGuild()), userRank, newName + " ~ "
-        + userRank.getTier().charAt(0) + " " + userRank.getRank() + " | " + userRank.getLeaguePoints() + "LP");
+        + userRank.getTier().charAt(0) + " " + userRank.getRank() + " | " + userRank.getLeaguePoints() + "LP", true);
     event.reply("Nickname set!").queue();
   }
 
@@ -130,7 +130,7 @@ public class MyListener extends ListenerAdapter {
       try {
         rankService.updateUser(user);
         rankService.modifyNickname(guild, user, user.getDiscordName() + " ~ " + user.getTier().charAt(0) + " "
-            + user.getRank() + " | " + user.getLeaguePoints() + "LP");
+            + user.getRank() + " | " + user.getLeaguePoints() + "LP", log);
 
       } catch (Exception e) {
         logger.error("Couldn't update user: {}; Error: {}. ", user.getDiscordName(), e.getMessage());

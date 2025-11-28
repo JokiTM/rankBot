@@ -114,7 +114,7 @@ public class MyListener extends ListenerAdapter {
     if (log)
       logger.info("Updating users..");
     if (log)
-      logger.info("Update Count{}", updateCount);
+      logger.info("Update Count: {}", updateCount);
     List<UserRank> userList = repo.findAll();
     if (log)
       logger.info("Retrieved {} users from DB", userList.size());

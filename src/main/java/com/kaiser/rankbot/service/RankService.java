@@ -77,14 +77,14 @@ public class RankService {
 
   public void modifyNickname(Guild guild, UserRank user, String newNickname, boolean log) {
 
-    if(log) logger.info("Modify nickname from: {} | rank:{} {} | {} LP", user.getDiscordName(), user.getTier(), user.getRank(),
-      user.getLeaguePoints());
+    if(log) logger.info("Modify nickname from: {} | rank:{} {} | {} LP", user.getDiscordName(), user.getTier(), user.getRank(), user.getLeaguePoints());
 
-    if(user.tier.equals("U"){
-      guild.retrieveMemberById(user.getDiscordId()).queue(member -> guild.modifyNickname(member, newNickname).queue());
+    if(user.tier.equals("U")){
+      guild.retrieveMemberById(user.getDiscordId()).queue(member -> guild.modifyNickname(member, "Unranked in LoL").queue());
     }else
     guild.retrieveMemberById(user.getDiscordId()).queue(member -> guild.modifyNickname(member, newNickname).queue());
   }
+}
 }
 
 public void updateUser(UserRank userRank) throws Exception {

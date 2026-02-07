@@ -89,7 +89,7 @@ public class RankService {
       if (rank == null) {
         // User is unranked, but this isn't an error
         userRank.setRank("Unranked");
-        userRank.setTier("Unranked");
+        userRank.setTier("0");
         userRank.setLeaguePoints(0);
         return;
       }

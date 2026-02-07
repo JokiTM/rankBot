@@ -130,7 +130,7 @@ public class MyListener extends ListenerAdapter {
       try {
         rankService.updateUser(user);
         rankService.modifyNickname(guild, user, user.getDiscordName() + " ~ " + user.getTier().charAt(0) + " "
-            + user.getRank() + " | " + user.getLeaguePoints() + "LP", log);
+            + user.getRank() + " | " + user.getLeaguePoints() + "LP", user.getTier(), log);
 
       } catch (Exception e) {
         logger.error("Couldn't update user: {}; Error: {}. ", user.getDiscordName(), e.getMessage());

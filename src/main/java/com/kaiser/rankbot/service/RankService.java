@@ -81,10 +81,10 @@ public class RankService {
 
     if(user.tier.equals("U")){
       guild.retrieveMemberById(user.getDiscordId()).queue(member -> guild.modifyNickname(member, "Unranked in LoL").queue());
-    }else
+    }else{
     guild.retrieveMemberById(user.getDiscordId()).queue(member -> guild.modifyNickname(member, newNickname).queue());
   }
-}
+
 }
 
 public void updateUser(UserRank userRank) throws Exception {

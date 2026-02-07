@@ -79,7 +79,7 @@ public class RankService {
 
     if(log) logger.info("Modify nickname from: {} | rank:{} {} | {} LP", user.getDiscordName(), user.getTier(), user.getRank(), user.getLeaguePoints());
 
-    if(tier.equals("U")){
+    if(tier.equals("Unranked")){
       guild.retrieveMemberById(user.getDiscordId()).queue(member -> guild.modifyNickname(member, "Unranked in LoL").queue());
     }else{
     guild.retrieveMemberById(user.getDiscordId()).queue(member -> guild.modifyNickname(member, newNickname).queue());

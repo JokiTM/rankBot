@@ -25,7 +25,7 @@ public class RankService {
     var riotId = Objects.requireNonNull(event.getOption("riotid")).getAsString();
 
     if (!riotId.matches(riotIdPattern))
-      throw new Exception("riotId is invalid!");
+    throw new Exception("riotId is invalid!");
 
     var puuid = riotApiService.getPuuid(riotId);
     if (puuid == null) {
@@ -46,29 +46,29 @@ public class RankService {
     if (rank == null) {
       event.reply("Unranked in Solo/Duo.").queue();
       user = new UserRank(
-          event.getUser().getId(),
-          newName,
-          Objects.requireNonNull(event.getGuild()).getId(),
-          riotId,
-          puuid,
-          "Unranked",
-          "Unranked",
-          0,
-          LocalDateTime.now());
+        event.getUser().getId(),
+        newName,
+        Objects.requireNonNull(event.getGuild()).getId(),
+        riotId,
+        puuid,
+        "Unranked",
+        "Unranked",
+        0,
+        LocalDateTime.now());
 
     } else {
       // Guild guild = event.getGuild();
 
       user = new UserRank(
-          event.getUser().getId(),
-          newName,
-          Objects.requireNonNull(event.getGuild()).getId(),
-          riotId,
-          puuid,
-          rank.getRank(),
-          rank.getTier(),
-          rank.getLeaguePoints(),
-          LocalDateTime.now());
+        event.getUser().getId(),
+        newName,
+        Objects.requireNonNull(event.getGuild()).getId(),
+        riotId,
+        puuid,
+        rank.getRank(),
+        rank.getTier(),
+        rank.getLeaguePoints(),
+        LocalDateTime.now());
 
     }
     logger.info("Got User: {}", user);
@@ -78,33 +78,37 @@ public class RankService {
   public void modifyNickname(Guild guild, UserRank user, String newNickname, boolean log) {
 
     if(log) logger.info("Modify nickname from: {} | rank:{} {} | {} LP", user.getDiscordName(), user.getTier(), user.getRank(),
-        user.getLeaguePoints());
+      user.getLeaguePoints());
 
+    if(user.tier.equals("U"){
+      guild.retrieveMemberById(user.getDiscordId()).queue(member -> guild.modifyNickname(member, newNickname).queue());
+    }else
     guild.retrieveMemberById(user.getDiscordId()).queue(member -> guild.modifyNickname(member, newNickname).queue());
   }
+}
 
-  public void updateUser(UserRank userRank) throws Exception {
-    try {
-      var rank = riotApiService.fetchRankFromRiotApi(userRank.getPuuid());
-      if (rank == null) {
-        // User is unranked, but this isn't an error
-        userRank.setRank("0");
-        userRank.setTier("Unranked");
-        userRank.setLeaguePoints(0);
-        return;
-      }
-      userRank.setRank(rank.getRank());
-      userRank.setTier(rank.getTier());
-      userRank.setLeaguePoints(rank.getLeaguePoints());
-    } catch (Exception e) {
-      if (e.getMessage().contains("Rate limit")) {
-        // Don't update the user if we hit rate limits, just skip this update
-        logger.warn("Skipping update for user {} due to rate limit", userRank.getDiscordId());
-        throw new Exception("Rate limit reached - skipping update");
-      }
-      // For other API errors, log but don't delete the user
-      logger.error("Error updating user {}: {}", userRank.getDiscordId(), e.getMessage());
-      throw e;
+public void updateUser(UserRank userRank) throws Exception {
+  try {
+    var rank = riotApiService.fetchRankFromRiotApi(userRank.getPuuid());
+    if (rank == null) {
+      // User is unranked, but this isn't an error
+      userRank.setRank("0");
+      userRank.setTier("Unranked");
+      userRank.setLeaguePoints(0);
+      return;
     }
+    userRank.setRank(rank.getRank());
+    userRank.setTier(rank.getTier());
+    userRank.setLeaguePoints(rank.getLeaguePoints());
+  } catch (Exception e) {
+    if (e.getMessage().contains("Rate limit")) {
+      // Don't update the user if we hit rate limits, just skip this update
+      logger.warn("Skipping update for user {} due to rate limit", userRank.getDiscordId());
+      throw new Exception("Rate limit reached - skipping update");
+    }
+    // For other API errors, log but don't delete the user
+    logger.error("Error updating user {}: {}", userRank.getDiscordId(), e.getMessage());
+    throw e;
   }
+}
 }

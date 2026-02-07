@@ -88,8 +88,8 @@ public class RankService {
       var rank = riotApiService.fetchRankFromRiotApi(userRank.getPuuid());
       if (rank == null) {
         // User is unranked, but this isn't an error
-        userRank.setRank("Unranked");
-        userRank.setTier("0");
+        userRank.setRank("0");
+        userRank.setTier("Unranked");
         userRank.setLeaguePoints(0);
         return;
       }

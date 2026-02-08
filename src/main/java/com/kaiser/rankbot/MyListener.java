@@ -132,10 +132,10 @@ public class MyListener extends ListenerAdapter {
       }
       try {
         rankService.updateUser(user);
-        if(user.getTier().equals("Unranked")){
-        rankService.modifyNickname(guild, user, user.getDiscordName() + " ~ " + user.getTier().charAt(0) + " " + user.getRank() + " | " + user.getLeaguePoints() + "LP", log);
+        if(!user.getTier().equals("Unranked")){
+          rankService.modifyNickname(guild, user, user.getDiscordName() + " ~ " + user.getTier().charAt(0) + " " + user.getRank() + " | " + user.getLeaguePoints() + "LP", log);
         }else{
-        rankService.modifyNickname(guild, user, user.getDiscordName() + " ~ " + "Unranked in LoL", log);
+          rankService.modifyNickname(guild, user, user.getDiscordName() + " ~ " + "Unranked in LoL", log);
         }
 
       } catch (Exception e) {
@@ -143,7 +143,7 @@ public class MyListener extends ListenerAdapter {
       }
     }
     if (log)
-      logger.info("Finished updating users\n\n\n");
+    logger.info("Finished updating users\n\n\n");
     updateCount++;
   }
 }

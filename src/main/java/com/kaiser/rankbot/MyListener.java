@@ -77,8 +77,11 @@ public class MyListener extends ListenerAdapter {
       return;
     }
     repo.updateDiscordName(user.getId(), newName);
-    rankService.modifyNickname(Objects.requireNonNull(event.getGuild()), userRank, newName + " ~ "
-        + userRank.getTier().charAt(0) + " " + userRank.getRank() + " | " + userRank.getLeaguePoints() + "LP", userRank.getTier(), true);
+    if(!userRank.getTier().equals("Unranked")){
+    rankService.modifyNickname(Objects.requireNonNull(event.getGuild()), userRank, newName + " ~ " + userRank.getTier().charAt(0) + " " + userRank.getRank() + " | " + userRank.getLeaguePoints() + "LP", true);
+    }else{
+    rankService.modifyNickname(Objects.requireNonNull(event.getGuild()), userRank, newName + " ~ " + "Unranked in LoL", true);
+    }
     event.reply("Nickname set!").queue();
   }
 
@@ -129,8 +132,11 @@ public class MyListener extends ListenerAdapter {
       }
       try {
         rankService.updateUser(user);
-        rankService.modifyNickname(guild, user, user.getDiscordName() + " ~ " + user.getTier().charAt(0) + " "
-            + user.getRank() + " | " + user.getLeaguePoints() + "LP", user.getTier(), log);
+        if(user.getTier().equals("Unranked")){
+        rankService.modifyNickname(guild, user, user.getDiscordName() + " ~ " + user.getTier().charAt(0) + " " + user.getRank() + " | " + user.getLeaguePoints() + "LP", log);
+        }else{
+        rankService.modifyNickname(guild, user, user.getDiscordName() + " ~ " + "Unranked in LoL", log);
+        }
 
       } catch (Exception e) {
         logger.error("Couldn't update user: {}; Error: {}. ", user.getDiscordName(), e.getMessage());

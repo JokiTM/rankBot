@@ -63,6 +63,12 @@ public class MyListener extends ListenerAdapter {
     // getContentRaw() is an atomic getter
     // getContentDisplay() is a lazy getter which modifies the content for e.g. console view (strip discord formatting)
     MessageChannel channel = event.getChannel();
+    if(content.contains("rong")){
+      message.addReaction(Emoji.fromUnicode("U+1F1F7")).queue(); // R
+      message.addReaction(Emoji.fromUnicode("U+1F1F4")).queue(); // O
+      message.addReaction(Emoji.fromUnicode("U+1F1F3")).queue(); // N
+      message.addReaction(Emoji.fromUnicode("U+1F1EC")).queue(); // G
+    }
     if(channel.getName().contains("essen")){
       logger.info("Message in essen recieved. Adding fish!");
       message.addReaction(Emoji.fromUnicode("U+1F41F")).queue(); 

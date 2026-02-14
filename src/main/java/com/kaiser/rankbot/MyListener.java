@@ -5,7 +5,11 @@ import com.kaiser.rankbot.service.CommandService;
 import com.kaiser.rankbot.service.RankService;
 import jakarta.annotation.PostConstruct;
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
+import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,7 +31,7 @@ public class MyListener extends ListenerAdapter {
   private RankRepo repo;
   @Autowired
   private JDA jda;
-
+  
   @PostConstruct
   public void init() {
     logger.info("Initiating rankBot");
@@ -38,6 +42,7 @@ public class MyListener extends ListenerAdapter {
     logger.info("Intiated rankBot. Listening for events...");
   }
 
+
   String helpMessage = """
       **Verfügbare Befehle:**
       - `/setuser <Summoner-Name>` - Verlinkt Discord Profil mit League Account Format:[Joki#ANT].
@@ -45,7 +50,27 @@ public class MyListener extends ListenerAdapter {
       - `/removeuser` - Entfernt den nutzer aus der Datenbank, sodass der name erneut geändert werden kann.
       - `/setnickname` - Ändert den nickname des Users.
 
-      """;
+  """;
+
+  @Override
+  public void onMessageReceived(MessageReceivedEvent event)
+{
+    logger.info("message recieved");
+    if (event.getAuthor().isBot()) return;
+    // We don't want to respond to other bot accounts, including ourself
+    Message message = event.getMessage();
+    String content = message.getContentRaw(); 
+    // getContentRaw() is an atomic getter
+    // getContentDisplay() is a lazy getter which modifies the content for e.g. console view (strip discord formatting)
+    MessageChannel channel = event.getChannel();
+    if(channel.getName().contains("essen")){
+      logger.info("Message in essen recieved. Adding fish!");
+      message.addReaction(Emoji.fromUnicode("U+1F41F")).queue(); 
+    }
+    else{
+      logger.info("channel nicht essen");
+    }
+  }
 
   @Override
   public void onSlashCommandInteraction(SlashCommandInteractionEvent event) {
@@ -78,9 +103,9 @@ public class MyListener extends ListenerAdapter {
     }
     repo.updateDiscordName(user.getId(), newName);
     if(!userRank.getTier().equals("Unranked")){
-    rankService.modifyNickname(Objects.requireNonNull(event.getGuild()), userRank, newName + " ~ " + userRank.getTier().charAt(0) + " " + userRank.getRank() + " | " + userRank.getLeaguePoints() + "LP", true);
+      rankService.modifyNickname(Objects.requireNonNull(event.getGuild()), userRank, newName + " ~ " + userRank.getTier().charAt(0) + " " + userRank.getRank() + " | " + userRank.getLeaguePoints() + "LP", true);
     }else{
-    rankService.modifyNickname(Objects.requireNonNull(event.getGuild()), userRank, newName + " ~ " + "Unranked in LoL", true);
+      rankService.modifyNickname(Objects.requireNonNull(event.getGuild()), userRank, newName + " ~ " + "Unranked in LoL", true);
     }
     event.reply("Nickname set!").queue();
   }
@@ -113,17 +138,17 @@ public class MyListener extends ListenerAdapter {
   private void updateUser() {
     boolean log = false;
     if (updateCount % 100 == 0)
-      log = true;
+    log = true;
     if (log)
-      logger.info("Updating users..");
+    logger.info("Updating users..");
     if (log)
-      logger.info("Update Count: {}", updateCount);
+    logger.info("Update Count: {}", updateCount);
     List<UserRank> userList = repo.findAll();
     if (log)
-      logger.info("Retrieved {} users from DB", userList.size());
+    logger.info("Retrieved {} users from DB", userList.size());
     for (UserRank user : userList) {
       if (log)
-        logger.info("Updating User: {}; id: {}", user.getDiscordName(), user.getDiscordId());
+      logger.info("Updating User: {}; id: {}", user.getDiscordName(), user.getDiscordId());
       var guild = jda.getGuildById(user.getGuildId());
       if (guild == null) {
         logger.error("Guild {} not found. Skipping User {}", user.getGuildId(), user.getDiscordId());

@@ -6,6 +6,7 @@ import com.kaiser.rankbot.service.RankService;
 import jakarta.annotation.PostConstruct;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.Widget.Member;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
 import net.dv8tion.jda.api.entities.emoji.Emoji;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
@@ -68,6 +69,10 @@ public class MyListener extends ListenerAdapter {
       message.addReaction(Emoji.fromUnicode("U+1F1F4")).queue(); // O
       message.addReaction(Emoji.fromUnicode("U+1F1F3")).queue(); // N
       message.addReaction(Emoji.fromUnicode("U+1F1EC")).queue(); // G
+    }
+    var user = message.getMember();
+    if(user.getId().equals("345277304408375297")){
+      message.addReaction(Emoji.fromUnicode("U+1F1EE U+1F1F1")).queue(); //🇮🇱
     }
     if(channel.getName().contains("essen")){
       logger.info("Message in essen recieved. Adding fish!");

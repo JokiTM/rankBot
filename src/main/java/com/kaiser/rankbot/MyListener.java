@@ -25,6 +25,7 @@ import java.util.Objects;
 public class MyListener extends ListenerAdapter {
   private static final Logger logger = LoggerFactory.getLogger(MyListener.class);
   private int updateCount;
+  private int enteCount;
 
   @Autowired
   private RankService rankService;
@@ -79,7 +80,12 @@ public class MyListener extends ListenerAdapter {
     }
     var user = message.getMember();
     if(user.getId().equals("345277304408375297")){
-      message.addReaction(Emoji.fromUnicode("U+1F1EE U+1F1F1")).queue(); //🇮🇱
+        if (enteCount == 10){
+            message.addReaction(Emoji.fromUnicode("U+1F1EE U+1F1F1")).queue(); //🇮🇱
+            enteCount = 0;
+        }else{
+            enteCount++;
+        }
     }
   }
 

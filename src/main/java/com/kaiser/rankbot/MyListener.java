@@ -70,16 +70,16 @@ public class MyListener extends ListenerAdapter {
       message.addReaction(Emoji.fromUnicode("U+1F1F3")).queue(); // N
       message.addReaction(Emoji.fromUnicode("U+1F1EC")).queue(); // G
     }
-    var user = message.getMember();
-    if(user.getId().equals("345277304408375297")){
-      message.addReaction(Emoji.fromUnicode("U+1F1EE U+1F1F1")).queue(); //🇮🇱
-    }
     if(channel.getName().contains("essen")){
       logger.info("Message in essen recieved. Adding fish!");
       message.addReaction(Emoji.fromUnicode("U+1F41F")).queue(); 
     }
     else{
       logger.info("channel nicht essen");
+    }
+    var user = message.getMember();
+    if(user.getId().equals("345277304408375297")){
+      message.addReaction(Emoji.fromUnicode("U+1F1EE U+1F1F1")).queue(); //🇮🇱
     }
   }
 

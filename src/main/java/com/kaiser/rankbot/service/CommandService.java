@@ -16,7 +16,7 @@ public class CommandService {
         Commands.slash("removeuser", "Removes the user from database"),
         Commands.slash("setnickname", "Sets the User's Nickname")
             .addOption(OptionType.STRING, "nickname", "Nickname to set"),
-        Commands.slash("cs2", "notify cs2 players")
+        Commands.slash("cs", "notify cs2 players")
 
     ).queue();
   }

@@ -55,7 +55,7 @@ public class MyListener extends ListenerAdapter {
       - `/help` - Zeigt diese Nachricht an.
       - `/removeuser` - Entfernt den nutzer aus der Datenbank, sodass der name erneut geändert werden kann.
       - `/setnickname` - Ändert den nickname des Users.
-      - `/cs2` - Benarichtigt alle cs spieler.
+      - `/cs` - Benarichtigt alle cs spieler.
 
   """;
 
@@ -106,7 +106,7 @@ public class MyListener extends ListenerAdapter {
       event.getChannel().sendMessage(helpMessage).queue();
     } else if (event.getName().equals("setnickname")) {
       setNickname(event);
-    } else if (event.getName().equals("cs2")) {
+    } else if (event.getName().equals("cs")) {
       cs.notifyUsers(event);
     }
 

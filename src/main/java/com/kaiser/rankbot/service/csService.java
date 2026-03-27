@@ -23,7 +23,7 @@ public class csService {
   @Autowired
   private JDA jda;
 
-  private void notifyUsers(SlashCommandInteractionEvent event){
+  public void notifyUsers(SlashCommandInteractionEvent event){
       for (String user : users)
           jda.getUserById(user).openPrivateChannel().flatMap(channel -> channel.sendMessage("cs2")).queue();
   }

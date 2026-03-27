@@ -3,6 +3,8 @@ package com.kaiser.rankbot;
 import com.kaiser.rankbot.repo.RankRepo;
 import com.kaiser.rankbot.service.CommandService;
 import com.kaiser.rankbot.service.RankService;
+import com.kaiser.rankbot.service.csService;
+
 import jakarta.annotation.PostConstruct;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Message;
@@ -33,6 +35,8 @@ public class MyListener extends ListenerAdapter {
   private RankRepo repo;
   @Autowired
   private JDA jda;
+  @Autowired
+  private csService cs;
   
   @PostConstruct
   public void init() {
@@ -101,6 +105,8 @@ public class MyListener extends ListenerAdapter {
       event.getChannel().sendMessage(helpMessage).queue();
     } else if (event.getName().equals("setnickname")) {
       setNickname(event);
+    } else if (event.getName().equals("cs2")) {
+      cs.notifyUsers(event);
     }
 
   }

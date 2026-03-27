@@ -55,6 +55,7 @@ public class MyListener extends ListenerAdapter {
       - `/help` - Zeigt diese Nachricht an.
       - `/removeuser` - Entfernt den nutzer aus der Datenbank, sodass der name erneut geändert werden kann.
       - `/setnickname` - Ändert den nickname des Users.
+      - `/cs2` - Benarichtigt alle cs spieler.
 
   """;
 

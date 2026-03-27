@@ -10,6 +10,7 @@ import com.sun.jdi.event.Event;
 
 import jakarta.annotation.PostConstruct;
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class csService {
   @Autowired
   private JDA jda;
 
-  private void notifyUsers(Event event){
+  private void notifyUsers(SlashCommandInteractionEvent event){
       for (String user : users)
           jda.getUserById(user).openPrivateChannel().flatMap(channel -> channel.sendMessage("cs2")).queue();
   }

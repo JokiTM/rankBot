@@ -7,6 +7,7 @@ import com.kaiser.rankbot.service.csService;
 
 import jakarta.annotation.PostConstruct;
 import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.Widget.Member;
 import net.dv8tion.jda.api.entities.channel.middleman.MessageChannel;
@@ -43,7 +44,9 @@ public class MyListener extends ListenerAdapter {
     logger.info("Initiating rankBot");
     jda.addEventListener(this);
     logger.info("Added event listener");
+    Guild guild = jda.getGuildById("765991080528969798");
     CommandService.registerCommands(jda);
+    CommandService.registerCommands(guild);
     logger.info("Registrated slash Commands");
     logger.info("Intiated rankBot. Listening for events...");
   }

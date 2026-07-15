@@ -17,7 +17,7 @@ public class jdaConfig {
 
     var discordBotToken = System.getenv("DISCORD_BOT_TOKEN");
     var jda = JDABuilder.createDefault(discordBotToken)
-        .enableIntents(GatewayIntent.MESSAGE_CONTENT)
+        .enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MEMBERS)
         .build();
     jda.awaitReady();
     logger.info("JDA constructed");

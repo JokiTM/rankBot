@@ -30,14 +30,15 @@ public class csService {
           }
           event.reply("Sent message to " + users.size() + " Users").queue();
       }
+      event.reply("Sent message to " + users.size() + " Users").queue();
   }
 
-  public List<Member> getUsersWithCsRole(SlashCommandInteractionEvent event){
-      var role = event.getGuild().getRolesByName("cs", true).stream().findFirst().orElse(null);
-      if(role == null) {
-          event.reply("No cs role found!!");
-          return null;
-      }
-      return event.getGuild().getMembersWithRoles(role);
-  }
+public List<Member> getUsersWithCsRole(SlashCommandInteractionEvent event){
+    var role = event.getGuild().getRolesByName("cs", true).stream().findFirst().orElse(null);
+    if(role == null) {
+        event.reply("No cs role found!!");
+        return null;
+    }
+    return event.getGuild().getMembersWithRoles(role);
+}
 }

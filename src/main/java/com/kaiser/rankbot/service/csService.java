@@ -23,14 +23,21 @@ public class csService {
   public void notifyUsers(SlashCommandInteractionEvent event){
       var users = getUsersWithCsRole(event);
       log.info("Notifing {} Users", users.size());
-      for (Member usersWithCsRole : users) {
-          log.info("Sending Message to user: {}", usersWithCsRole.getNickname());
-          usersWithCsRole.getUser().openPrivateChannel().flatMap(channel -> channel.sendMessage("cs2")).queue();;
+      if (users != null && !users.isEmpty()) {
+          for (Member usersWithCsRole : users) {
+              log.info("Sending Message to user: {}", usersWithCsRole.getNickname());
+              usersWithCsRole.getUser().openPrivateChannel().flatMap(channel -> channel.sendMessage("cs2")).queue();;
+          }
+          event.reply("Sent message to " + users.size() + " Users").queue();
       }
-      event.reply("Sent message to " + users.size() + " Users").queue();
   }
 
   public List<Member> getUsersWithCsRole(SlashCommandInteractionEvent event){
-      return event.getGuild().getMembersWithRoles(jda.getRolesByName("cs", true));
+      var role = event.getGuild().getRolesByName("cs", true).stream().findFirst().orElse(null);
+      if(role == null) {
+          event.reply("No cs role found!!");
+          return null;
+      }
+      return event.getGuild().getMembersWithRoles(role);
   }
 }

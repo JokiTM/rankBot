@@ -20,6 +20,14 @@ public class jdaConfig {
         .enableIntents(GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MEMBERS)
         .build();
     jda.awaitReady();
+    for (var guild : jda.getGuilds()) {
+        logger.info(
+                "Guild: {} | memberCount={} | cached={}",
+                guild.getName(),
+                guild.getMemberCount(),
+                guild.getMembers().size()
+                );
+    };
     logger.info("JDA constructed");
     return jda;
   }

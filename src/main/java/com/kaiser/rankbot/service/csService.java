@@ -27,6 +27,7 @@ public class csService {
           log.info("Sending Message to user: {}", usersWithCsRole.getNickname());
           usersWithCsRole.getUser().openPrivateChannel().flatMap(channel -> channel.sendMessage("cs2"));
       }
+      event.reply("Sent message to " + users.size() + " Users").queue();
   }
 
   public List<Member> getUsersWithCsRole(SlashCommandInteractionEvent event){

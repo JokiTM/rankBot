@@ -25,7 +25,7 @@ public class csService {
       log.info("Notifing {} Users", users.size());
       for (Member usersWithCsRole : users) {
           log.info("Sending Message to user: {}", usersWithCsRole.getNickname());
-          usersWithCsRole.getUser().openPrivateChannel().flatMap(channel -> channel.sendMessage("cs2"));
+          usersWithCsRole.getUser().openPrivateChannel().flatMap(channel -> channel.sendMessage("cs2")).queue();;
       }
       event.reply("Sent message to " + users.size() + " Users").queue();
   }

@@ -21,7 +21,10 @@ public class csService {
   private JDA jda;
 
   public void notifyUsers(SlashCommandInteractionEvent event){
-      for (Member usersWithCsRole : getUsersWithCsRole(event)) {
+      var users = getUsersWithCsRole(event);
+      log.info("Notifing {} Users", users.size());
+      for (Member usersWithCsRole : users) {
+          log.info("Sending Message to user: {}", usersWithCsRole.getNickname());
           usersWithCsRole.getUser().openPrivateChannel().flatMap(channel -> channel.sendMessage("cs2"));
       }
   }

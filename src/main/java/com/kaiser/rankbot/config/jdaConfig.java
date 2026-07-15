@@ -21,6 +21,7 @@ public class jdaConfig {
         .build();
     jda.awaitReady();
     for (var guild : jda.getGuilds()) {
+        guild.loadMembers();
         logger.info(
                 "Guild: {} | memberCount={} | cached={}",
                 guild.getName(),
